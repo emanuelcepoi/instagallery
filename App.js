@@ -15,7 +15,10 @@ import { Provider } from 'react-redux';
 const initialState = {
   modalVisible: false,
   pressedImage: null,
+  currentDescription: null,
+  currentTitle: null
 }
+
 
 const reducer = (state = initialState, action) => {
   if(action.type === 'SHOW_MODAL') {
@@ -29,7 +32,15 @@ const reducer = (state = initialState, action) => {
       ...state,
       modalVisible: false
     }
-  } else {
+  } else if(action.type === 'UPDATE_METADATA') {
+
+    return {
+      ...state,
+      currentDescription: action.description,
+      currentTitle: action.title
+    }
+  } 
+  else {
     return state
   }
 }
@@ -37,6 +48,10 @@ const reducer = (state = initialState, action) => {
 const store = createStore(reducer)
 
 export default class App extends Component {
+
+  componentDidMount() {
+    console.disableYellowBox = true;
+  }
   render() {
     return (
       <Provider store={store}>

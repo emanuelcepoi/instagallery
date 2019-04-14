@@ -7,11 +7,10 @@ import Swiper from 'react-native-swiper';
 class PreviewModal extends Component {
     constructor() {
         super();
-        this.state = {
-            description: null,
-            title: null
-        }
+    }
 
+    updateData = (index) => {
+        this.props.setMetadata(String(this.props.data[index].title), String(this.props.data[index].description))
     }
 
     render() {
@@ -23,22 +22,27 @@ class PreviewModal extends Component {
             >
                 <View style={styles.modalBackground}>
                     <View style={styles.container}>
-                        <Swiper showsButtons={false} 
-                                showsPagination={false} 
-                                index={this.props.data[Number(this.props.pressedImage)].id}
-                                // onIndexChanged={ (index) => alert(index)}
-                                >
+                        <Swiper showsButtons={false}
+                            showsPagination={false}
+                            index={this.props.data[Number(this.props.pressedImage)].id}
+                            onIndexChanged={(index) => this.updateData(index)}
+                        >
                             {this.props.data.map((data, index) => {
                                 return (
-                                    <View style={styles.wrapper}>
+                                    <View style={styles.wrapper} key={index}>
                                         <Image
-                                            style={{ width: '100%', height: 300 }}
+                                            style={{flex:1, height: undefined, width: '100%'}}
                                             source={{ uri: this.props.data[index].src }}
+                                            resizeMode={'contain'}
                                         />
                                     </View>
                                 )
                             })}
                         </Swiper>
+                        <View style={styles.metadataContainer}>
+                            <Text style={styles.title}>{this.props.currentTitle}</Text>
+                            <Text style={styles.description}>{this.props.currentDescription}</Text>
+                        </View>
                         <TouchableHighlight
                             onPress={this.props.hideModal}>
                             <Text>Hide Modal</Text>
@@ -59,25 +63,44 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     container: {
-        height: 300,
+        height: 500,
         width: '100%'
+    },
+    metadataContainer: {
+        alignItems: 'center',
+        padding: 16
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff'
+    },
+    description: {
+        fontSize: 15,
+        fontStyle: 'italic',
+        color: '#fff',
+        textAlign: 'center'
+        
     },
     wrapper: {
         width: '100%',
-        height: 300
+        height: 340
     }
 })
 
 const mapStateToProps = (state) => {
     return {
         modalState: state.modalVisible,
-        pressedImage: state.pressedImage
+        pressedImage: state.pressedImage,
+        currentTitle: state.currentTitle,
+        currentDescription: state.currentDescription
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        hideModal: () => dispatch({ type: 'HIDE_MODAL' })
+        hideModal: () => dispatch({ type: 'HIDE_MODAL' }),
+        setMetadata: (title, description) => dispatch({ type: 'UPDATE_METADATA', title, description })
     }
 }
 

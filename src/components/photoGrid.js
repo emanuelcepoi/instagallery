@@ -14,15 +14,15 @@ class PhotoGrid extends Component {
         this.props.setImagesData(this.props.images)
     }
 
-    showDetails = (index, title, description) => {
-        alert(index)
-    }
-
     setModalVisible = (visible, image) =>  {
         this.setState({modalVisible: visible,
                        currentImage: image});
       }
     
+    updateData = (index) => {
+        this.props.setMetadata( String(this.props.images[index].title), String(this.props.images[index].description))
+        this.props.showModal(index)
+    }
     render() {
 
         return (
@@ -32,7 +32,7 @@ class PhotoGrid extends Component {
                         {
                             this.props.images.map((image, index) => {
                                 return (
-                                    <TouchableWithoutFeedback onPress={() => this.props.showModal(image.id)} key={index}>
+                                    <TouchableWithoutFeedback onPress={() => this.updateData(index)} key={index}>
                                         <Image
                                             style={styles.gridImage}
                                             source={{ uri: image.src }}
@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
     return {
        showModal: (pressedImage) => dispatch({type: 'SHOW_MODAL', payload: pressedImage}),
+       setMetadata: (title, description) => dispatch({ type: 'UPDATE_METADATA', title, description} )
+
     }
 }
 export default connect(null, mapDispatchToProps)(PhotoGrid)
