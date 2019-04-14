@@ -32,6 +32,27 @@ class HomeScreen extends Component {
                 description: 'Donec quis efficitur sem, at laoreet erat. Quisque nec pretium velit, nec accumsan lorem. Morbi venenatis rhoncus bibendum. Mauris tempus.',
                 src: 'https://data.whicdn.com/images/59064151/large.jpg',
             },
+            {   
+                id: 4,
+                title: 'Quocosonme loremus, Velit ac',
+                description: ' Morbi venenatis rhoncus bibendum. Mauris tempus.',
+                src: 'https://i.imgur.com/xY1kRUE.jpg',
+            },
+            {   
+                id: 5,
+                title: 'Velit ac',
+                description: ' Quisque nec pretium velit, nec accumsan lorem. Morbi venenatis rhoncus bibendum. Mauris tempus.',
+                src: 'https://cdn.playbuzz.com/cdn/0655670f-1d4f-49eb-829a-2da151a0d1ba/4752866f-6e6e-47e2-b84d-e491db27a4d5.jpg',
+            },
+            {   
+                id: 6,
+                title: 'veniam culpa',
+                description: 'Nostrud laboris cillum excepteur veniam culpa deserunt proident ad excepteur labore magna tempor..',
+                src: 'https://cdn.pixabay.com/photo/2017/10/24/19/29/tumblr-2885846_960_720.jpg',
+            },
+            
+            
+            
             ]
         }
     }

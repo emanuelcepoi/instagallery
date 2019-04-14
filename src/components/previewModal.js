@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Modal, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, Modal, TouchableHighlight, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
 
 import Swiper from 'react-native-swiper';
@@ -21,6 +21,14 @@ class PreviewModal extends Component {
                 visible={this.props.modalState}
             >
                 <View style={styles.modalBackground}>
+                    <TouchableOpacity
+                        onPress={this.props.hideModal}>
+                        <Image
+                            style={{ width: 30, height: 30 }}
+                            source={{ uri: 'http://eng-cs.syr.edu/wp-content/themes/syrecs/assets/images/CLOSEICON.png' }}
+                        />
+
+                    </TouchableOpacity>
                     <View style={styles.container}>
                         <Swiper showsButtons={false}
                             showsPagination={false}
@@ -31,7 +39,7 @@ class PreviewModal extends Component {
                                 return (
                                     <View style={styles.wrapper} key={index}>
                                         <Image
-                                            style={{flex:1, height: undefined, width: '100%'}}
+                                            style={{ flex: 1, height: undefined, width: '100%' }}
                                             source={{ uri: this.props.data[index].src }}
                                             resizeMode={'contain'}
                                         />
@@ -43,13 +51,9 @@ class PreviewModal extends Component {
                             <Text style={styles.title}>{this.props.currentTitle}</Text>
                             <Text style={styles.description}>{this.props.currentDescription}</Text>
                         </View>
-                        <TouchableHighlight
-                            onPress={this.props.hideModal}>
-                            <Text>Hide Modal</Text>
-                        </TouchableHighlight>
                     </View>
                 </View>
-            </Modal>
+            </Modal >
         )
     }
 }
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         color: '#fff',
         textAlign: 'center'
-        
+
     },
     wrapper: {
         width: '100%',
