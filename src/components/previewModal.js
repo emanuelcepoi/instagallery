@@ -15,7 +15,7 @@ class PreviewModal extends Component {
                >
                 <View style={styles.modalBackground}>
                     <View>
-                        <Text>Hello from my modal!</Text>
+                        <Text>{this.props.data[Number(this.props.pressedImage)].title}</Text>
 
                         <TouchableHighlight
                             onPress={this.props.hideModal }>
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        modalState: state.modalVisible
+        modalState: state.modalVisible,
+        pressedImage: state.pressedImage
     }
 }
 

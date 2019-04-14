@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView, Image, } from 'react-native';
 import {connect} from 'react-redux'
+import PreviewModal from './previewModal'
 
 
 class PhotoGrid extends Component {
     constructor() {
         super()
-        this.state = {
-            modalVisible: false,
-            currentImage: null
-        }
+      
+    }
+
+    ComponentWillMount() {
+        this.props.setImagesData(this.props.images)
     }
 
     showDetails = (index, title, description) => {
@@ -30,7 +32,7 @@ class PhotoGrid extends Component {
                         {
                             this.props.images.map((image, index) => {
                                 return (
-                                    <TouchableWithoutFeedback onPress={this.props.showModal} key={index}>
+                                    <TouchableWithoutFeedback onPress={() => this.props.showModal(image.id)} key={index}>
                                         <Image
                                             style={styles.gridImage}
                                             source={{ uri: image.src }}
@@ -42,6 +44,8 @@ class PhotoGrid extends Component {
                         }
                        
                     </View>
+                <PreviewModal data={this.props.images}/>
+
                 </ScrollView>
                 
             </View >
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
     return {
-       showModal: () => dispatch({type: 'SHOW_MODAL'})
+       showModal: (pressedImage) => dispatch({type: 'SHOW_MODAL', payload: pressedImage}),
     }
 }
 export default connect(null, mapDispatchToProps)(PhotoGrid)

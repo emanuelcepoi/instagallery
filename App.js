@@ -13,18 +13,18 @@ import {createStore} from 'redux'
 import { Provider } from 'react-redux';
 
 const initialState = {
-  modalVisible: false
+  modalVisible: false,
+  pressedImage: null,
 }
 
 const reducer = (state = initialState, action) => {
   if(action.type === 'SHOW_MODAL') {
-    console.log('show receied')
     return {
       ...state,
-      modalVisible: true
+      modalVisible: true,
+      pressedImage: action.payload
     }
   }else if(action.type === 'HIDE_MODAL'){
-    console.log('hide received');
     return {
       ...state,
       modalVisible: false
