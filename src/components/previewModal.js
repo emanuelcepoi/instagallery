@@ -1,29 +1,24 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Modal, TouchableHighlight } from 'react-native';
-
+import {connect} from 'react-redux'
 class PreviewModal extends Component {
     constructor() {
         super();
 
-        this.state = {
-            modalVisible: false
-        }
     }
     render() {
         return (
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={this.state.modalVisible}
+                visible={this.props.modalState}
                >
                 <View style={styles.modalBackground}>
                     <View>
-                        <Text>{this.state.currentImage}</Text>
+                        <Text>Hello from my modal!</Text>
 
                         <TouchableHighlight
-                            onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible);
-                            }}>
+                            onPress={this.props.hideModal }>
                             <Text>Hide Modal</Text>
                         </TouchableHighlight>
                     </View>
@@ -43,5 +38,17 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PreviewModal
+const mapStateToProps = (state) => {
+    return {
+        modalState: state.modalVisible
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        hideModal: () => dispatch({type: 'HIDE_MODAL'})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreviewModal)
 

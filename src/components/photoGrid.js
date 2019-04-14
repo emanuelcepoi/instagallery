@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView, Image, } from 'react-native';
+import {connect} from 'react-redux'
+
 
 class PhotoGrid extends Component {
     constructor() {
@@ -28,7 +30,7 @@ class PhotoGrid extends Component {
                         {
                             this.props.images.map((image, index) => {
                                 return (
-                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(!this.state.modalVisible, image.title)} key={index}>
+                                    <TouchableWithoutFeedback onPress={this.props.showModal} key={index}>
                                         <Image
                                             style={styles.gridImage}
                                             source={{ uri: image.src }}
@@ -64,4 +66,10 @@ const styles = StyleSheet.create({
 })
 
 
-export default PhotoGrid
+
+function mapDispatchToProps(dispatch) {
+    return {
+       showModal: () => dispatch({type: 'SHOW_MODAL'})
+    }
+}
+export default connect(null, mapDispatchToProps)(PhotoGrid)
