@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView, Image, } from 'react-native';
+import {connect} from 'react-redux'
+import PreviewModal from './previewModal'
+
 
 class PhotoGrid extends Component {
     constructor() {
         super()
-        this.state = {
-            modalVisible: false,
-            currentImage: null
-        }
+      
     }
 
-    showDetails = (index, title, description) => {
-        alert(index)
+    ComponentWillMount() {
+        this.props.setImagesData(this.props.images)
     }
 
     setModalVisible = (visible, image) =>  {
@@ -19,6 +19,10 @@ class PhotoGrid extends Component {
                        currentImage: image});
       }
     
+    updateData = (index) => {
+        this.props.setMetadata( String(this.props.images[index].title), String(this.props.images[index].description))
+        this.props.showModal(index)
+    }
     render() {
 
         return (
@@ -28,7 +32,7 @@ class PhotoGrid extends Component {
                         {
                             this.props.images.map((image, index) => {
                                 return (
-                                    <TouchableWithoutFeedback onPress={() => this.setModalVisible(!this.state.modalVisible, image.title)} key={index}>
+                                    <TouchableWithoutFeedback onPress={() => this.updateData(index)} key={index}>
                                         <Image
                                             style={styles.gridImage}
                                             source={{ uri: image.src }}
@@ -40,6 +44,8 @@ class PhotoGrid extends Component {
                         }
                        
                     </View>
+                <PreviewModal data={this.props.images}/>
+
                 </ScrollView>
                 
             </View >
@@ -64,4 +70,12 @@ const styles = StyleSheet.create({
 })
 
 
-export default PhotoGrid
+
+function mapDispatchToProps(dispatch) {
+    return {
+       showModal: (pressedImage) => dispatch({type: 'SHOW_MODAL', payload: pressedImage}),
+       setMetadata: (title, description) => dispatch({ type: 'UPDATE_METADATA', title, description} )
+
+    }
+}
+export default connect(null, mapDispatchToProps)(PhotoGrid)
